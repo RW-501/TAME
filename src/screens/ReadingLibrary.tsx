@@ -1,0 +1,1 @@
+import React from 'react'; import { ScrollView,Text,StyleSheet } from 'react-native'; export default function ReadingLibrary(){ return (<ScrollView contentContainerStyle={{padding:16}}><Text style={s.h}>Reading Library</Text><Text>Place decodable PDFs under src/assets/books/…</Text></ScrollView>);} const s=StyleSheet.create({h:{fontSize:22,fontWeight:'900'}});

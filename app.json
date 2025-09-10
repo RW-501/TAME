@@ -1,0 +1,23 @@
+{
+  "expo": {
+    "name": "TAME",
+    "slug": "tame",
+    "version": "1.0.0",
+    "sdkVersion": "51.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/brand/tame-logo.jpg",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/brand/tame-logo.jpg",
+        "backgroundColor": "#FFFFFF"
+      },
+      "permissions": []
+    }
+  }
+}

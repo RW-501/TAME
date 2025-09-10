@@ -1,0 +1,1 @@
+import React from 'react'; import { ScrollView,Text,StyleSheet } from 'react-native'; export default function GameLibrary(){ return (<ScrollView contentContainerStyle={{padding:16}}><Text style={s.h}>Game Library</Text></ScrollView>);} const s=StyleSheet.create({h:{fontSize:22,fontWeight:'900'}});
