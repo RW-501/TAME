@@ -51,6 +51,14 @@ export default function MFASetup() {
       {!enrolled && (
         <Pressable style={[s.btn, { borderColor: theme.colors.primary }]} onPress={begin}>
           <Text style={[s.bt, { color: theme.colors.primary }]}>Start TOTP</Text>
+   {!enrolled && (
+  <Pressable
+    style={[s.btn, { borderColor: theme.colors.secondary, marginTop: 6 }]}
+    onPress={() => navigation.replace('HomeScreen')}
+  >
+    <Text style={[s.bt, { color: theme.colors.secondary }]}>Skip MFA</Text>
+  </Pressable>
+)}
         </Pressable>
       )}
 
@@ -77,14 +85,6 @@ export default function MFASetup() {
           <Text style={{ fontWeight: 'bold', color: theme.colors.primary }}>
             ✅ MFA is now enabled for your account.
           </Text>
-          {!enrolled && (
-  <Pressable
-    style={[s.btn, { borderColor: theme.colors.secondary, marginTop: 6 }]}
-    onPress={() => navigation.replace('HomeScreen')}
-  >
-    <Text style={[s.bt, { color: theme.colors.secondary }]}>Skip MFA</Text>
-  </Pressable>
-)}
         </View>
       )}
     </ScrollView>
