@@ -8,7 +8,7 @@ export default function HomeScreen() {
   const nav: any = useNavigation();
 
   return (
-    <MFAGate>
+<MFAGate allowSkip={true}>
       <ScrollView contentContainerStyle={{ padding: 16, backgroundColor: theme.colors.surface }}>
         <Image
           source={require('../../assets/brand/tame-logo.jpg')}

@@ -51,6 +51,9 @@ export default function MFASetup() {
       {!enrolled && (
         <Pressable style={[s.btn, { borderColor: theme.colors.primary }]} onPress={begin}>
           <Text style={[s.bt, { color: theme.colors.primary }]}>Start TOTP</Text>
+        </Pressable>
+      )}
+
    {!enrolled && (
   <Pressable
     style={[s.btn, { borderColor: theme.colors.secondary, marginTop: 6 }]}
@@ -59,9 +62,6 @@ export default function MFASetup() {
     <Text style={[s.bt, { color: theme.colors.secondary }]}>Skip MFA</Text>
   </Pressable>
 )}
-        </Pressable>
-      )}
-
       {qrUrl && !enrolled && (
         <View style={s.card}>
           <Text style={{ marginBottom: 8 }}>Scan this QR code in your Authenticator app:</Text>

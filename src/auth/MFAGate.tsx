@@ -1,4 +1,3 @@
-// src/auth/MFAGate.tsx
 import React from 'react';
 import { View, Text, Pressable, StyleSheet, ActivityIndicator } from 'react-native';
 import { useAuth } from './useAuth';
@@ -6,19 +5,15 @@ import { useNavigation } from '@react-navigation/native';
 
 const theme = require('../config/tameTheme').TameTheme;
 
-type Props = {
+type MFAGateProps = {
   children: React.ReactNode;
+  allowSkip?: boolean; // temporary bypass MFA
 };
 
-/**
- * MFAGate component
- * Protects screens by enforcing sign-in and MFA
- */
-export default function MFAGate({ children }: Props) {
+export default function MFAGate({ children, allowSkip = false }: MFAGateProps) {
   const { user, mfaEnabled, loading } = useAuth();
   const nav: any = useNavigation();
 
-  // Show loader while auth state is loading
   if (loading) {
     return (
       <View style={s.center}>
@@ -27,7 +22,6 @@ export default function MFAGate({ children }: Props) {
     );
   }
 
-  // Require sign-in
   if (!user) {
     return (
       <View style={s.center}>
@@ -39,8 +33,7 @@ export default function MFAGate({ children }: Props) {
     );
   }
 
-  // Require MFA setup
-  if (!mfaEnabled) {
+  if (!mfaEnabled && !allowSkip) {
     return (
       <View style={s.center}>
         <Text style={s.text}>Multi-Factor Authentication is required to continue.</Text>
@@ -51,7 +44,6 @@ export default function MFAGate({ children }: Props) {
     );
   }
 
-  // If signed in and MFA enabled, render the protected content
   return <>{children}</>;
 }
 
