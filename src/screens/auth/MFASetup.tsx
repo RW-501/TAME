@@ -12,16 +12,20 @@ export default function MFASetup() {
   const [finalizeFn, setFinalizeFn] = React.useState<((code: string) => Promise<void>) | null>(null);
   const [enrolled, setEnrolled] = React.useState(false);
 
-  const begin = async () => {
-    try {
-      const { secret, qrCodeUrl, finalize } = await startTotpEnrollment() as any;
-      setSecret(secret);
-      setQrUrl(qrCodeUrl);
-      setFinalizeFn(() => finalize);
-    } catch (e: any) {
-      Alert.alert('Failed', e?.message || String(e));
-    }
-  };
+const begin = async () => {
+  console.log("▶️ Start TOTP pressed");
+  try {
+    const { secret, qrCodeUrl, finalize } = await startTotpEnrollment() as any;
+    console.log("Secret:", secret, "QR URL:", qrCodeUrl);
+    setSecret(secret);
+    setQrUrl(qrCodeUrl);
+    setFinalizeFn(() => finalize);
+  } catch (e: any) {
+    console.error("TOTP begin failed", e);
+    Alert.alert('Failed', e?.message || String(e));
+  }
+};
+
 
   const complete = async () => {
     try {

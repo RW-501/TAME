@@ -21,9 +21,14 @@ export async function startTotpEnrollment() {
   // Generate secret for authenticator app
   const s = await TotpMultiFactorGenerator.generateSecret(session);
 
+  // Firebase Web SDK doesn’t always return `qrCodeUrl`, so we build it manually
+  const issuer = encodeURIComponent('TAME'); // your app name
+  const account = encodeURIComponent(u.email || 'user');
+  const qrCodeUrl = `otpauth://totp/${issuer}:${account}?secret=${s.secretKey}&issuer=${issuer}`;
+
   return {
     secret: s.secretKey,
-    qrCodeUrl: s.qrCodeUrl,
+    qrCodeUrl,
 
     // Call this once the user has scanned the QR and entered their code
     finalize: async (code: string) => {
