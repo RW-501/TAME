@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image } from 'react-native';
+import { Image, Pressable } from 'react-native';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -23,6 +23,7 @@ const theme = require('./src/config/tameTheme').TameTheme;
 
 // Navigation
 const Stack = createNativeStackNavigator();
+
 const NavTheme = {
   ...DefaultTheme,
   colors: {
@@ -39,7 +40,7 @@ export default function App() {
     <NavigationContainer theme={NavTheme}>
       <Stack.Navigator
         initialRouteName="HomeScreen"
-        screenOptions={{
+        screenOptions={({ navigation }) => ({
           headerStyle: { backgroundColor: theme.colors.background },
           headerTitle: () => (
             <Image
@@ -47,7 +48,13 @@ export default function App() {
               style={{ width: 96, height: 28, borderRadius: 6, resizeMode: 'contain' }}
             />
           ),
-        }}
+          headerLeft: () => (
+            <Pressable onPress={() => navigation.goBack()} style={{ marginRight: 16 }}>
+              <Text style={{ fontSize: 24, color: theme.colors.primary }}>←</Text>
+            </Pressable>
+          ),
+          headerBackTitleVisible: false, // hides default "Back" text
+        })}
       >
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="HomeScreen" component={HomeScreen} />
