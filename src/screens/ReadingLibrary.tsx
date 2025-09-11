@@ -5,23 +5,15 @@ import { manifests } from '../assets/books'; // <-- correct path
 const theme = require('../config/tameTheme').TameTheme;
 
 export default function ReadingLibrary() {
-  const openPDF = (file: string) => {
-    try {
-      const url = Platform.OS === 'web'
-        ? `/books/${file}` // public folder path for web
-        : `books/${file}`; // native path (optional, adjust if needed)
+const openPDF = (file: string) => {
+  const url = `/books/${file}`; // public folder path
+  if (Platform.OS === 'web') {
+    window.open(url, '_blank');
+  } else {
+    alert('PDF open on native not implemented yet');
+  }
+};
 
-      // On web, open in new tab
-      if (Platform.OS === 'web') {
-        window.open(url, '_blank');
-      } else {
-        // For native, use Linking to open the file if needed
-        // Linking.openURL(url); 
-        alert('PDF open on native not implemented yet');
-      }
-    } catch (e: any) {
-      alert(`Error: ${e?.message || 'Failed to open PDF'}`);
-    }
   };
 
   return (
