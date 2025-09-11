@@ -31,7 +31,7 @@ export default function ReadingLibrary() {
               {manifest.files.map((f: string, i: number) => (
                 <Pressable key={i} style={s.fileBtn} onPress={() => openPDF(f)}>
                   <Image
-                    source={require('../../assets/icons/pdf-icon.png')} // Add a small PDF icon
+                    source={require('assets/brand/pdf-icon.png')} // Add a small PDF icon
                     style={s.icon}
                   />
                   <Text style={s.fileText} numberOfLines={1}>{f}</Text>
