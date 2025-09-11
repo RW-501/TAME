@@ -48,11 +48,36 @@ export default function App() {
               style={{ width: 96, height: 28, borderRadius: 6, resizeMode: 'contain' }}
             />
           ),
-          headerLeft: () => (
-            <Pressable onPress={() => navigation.goBack()} style={{ marginRight: 16 }}>
-              <Text style={{ fontSize: 24, color: theme.colors.primary }}>←</Text>
-            </Pressable>
-          ),
+import { Platform, Text, Pressable } from 'react-native';
+
+headerLeft: ({ navigation }) => {
+  if (Platform.OS === 'web') {
+    // On web, use regular DOM-compatible element
+    return (
+      <button
+        onClick={() => navigation.goBack()}
+        style={{
+          fontSize: 24,
+          background: 'none',
+          border: 'none',
+          color: theme.colors.primary,
+          cursor: 'pointer',
+          marginRight: 16,
+        }}
+      >
+        ←
+      </button>
+    );
+  } else {
+    // On native, use React Native components
+    return (
+      <Pressable onPress={() => navigation.goBack()} style={{ marginRight: 16 }}>
+        <Text style={{ fontSize: 24, color: theme.colors.primary }}>←</Text>
+      </Pressable>
+    );
+  }
+},
+
           headerBackTitleVisible: false, // hides default "Back" text
         })}
       >
