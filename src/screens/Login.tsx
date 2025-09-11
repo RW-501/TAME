@@ -3,6 +3,7 @@ import { ScrollView, View, Text, TextInput, Pressable, StyleSheet, Image, Alert,
 import { signInEmailPassword } from '../auth/firebaseAuth';
 import { configureGoogle, signInWithGoogle } from '../auth/google';
 import { useNavigation } from '@react-navigation/native';
+
 const theme = require('../config/tameTheme').TameTheme;
 
 export default function Login() {
@@ -11,37 +12,37 @@ export default function Login() {
   const [password, setPassword] = React.useState(__DEV__ ? 'password123' : '');
   const [loading, setLoading] = React.useState(false);
 
-  React.useEffect(()=>{
+  React.useEffect(() => {
     configureGoogle(process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID || 'YOUR_GOOGLE_WEB_CLIENT_ID');
   }, []);
 
-  const submit = async () => {
+  const handleEmailSignIn = async () => {
     setLoading(true);
     try {
       await signInEmailPassword(email, password);
       nav.replace('HomeScreen');
-    } catch(e: any) {
-      if(e?.code === 'auth/multi-factor-auth-required') {
+    } catch (e: any) {
+      if (e?.code === 'auth/multi-factor-auth-required') {
         nav.navigate('MFAVerify', { resolverError: e });
         return;
       }
-      Alert.alert('Auth failed', e?.message || String(e));
+      Alert.alert('Sign-in failed', e?.message || String(e));
     } finally {
       setLoading(false);
     }
   };
 
-  const googleSignIn = async () => {
+  const handleGoogleSignIn = async () => {
     setLoading(true);
     try {
       await signInWithGoogle();
       nav.replace('HomeScreen');
-    } catch(e: any) {
-      if(e?.code === 'auth/multi-factor-auth-required') {
+    } catch (e: any) {
+      if (e?.code === 'auth/multi-factor-auth-required') {
         nav.navigate('MFAVerify', { resolverError: e });
         return;
       }
-      Alert.alert('Auth failed', e?.message || String(e));
+      Alert.alert('Sign-in failed', e?.message || String(e));
     } finally {
       setLoading(false);
     }
@@ -60,23 +61,23 @@ export default function Login() {
           style={s.in}
           value={email}
           onChangeText={setEmail}
-          placeholder='Email'
-          keyboardType='email-address'
-          autoCapitalize='none'
+          placeholder="Email"
+          keyboardType="email-address"
+          autoCapitalize="none"
         />
         <TextInput
           style={s.in}
           value={password}
           onChangeText={setPassword}
-          placeholder='Password'
+          placeholder="Password"
           secureTextEntry
         />
 
-        <Pressable style={[s.btn, { borderColor: theme.colors.primary }]} onPress={submit} disabled={loading}>
+        <Pressable style={[s.btn, { borderColor: theme.colors.primary }]} onPress={handleEmailSignIn} disabled={loading}>
           {loading ? <ActivityIndicator color={theme.colors.primary} /> : <Text style={[s.bt, { color: theme.colors.primary }]}>Sign in</Text>}
         </Pressable>
 
-        <Pressable style={[s.btn, { borderColor: theme.colors.secondary }]} onPress={googleSignIn} disabled={loading}>
+        <Pressable style={[s.btn, { borderColor: theme.colors.secondary }]} onPress={handleGoogleSignIn} disabled={loading}>
           {loading ? <ActivityIndicator color={theme.colors.secondary} /> : <Text style={[s.bt, { color: theme.colors.secondary }]}>Sign in with Google</Text>}
         </Pressable>
 
