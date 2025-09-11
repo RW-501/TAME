@@ -41,7 +41,7 @@ export default function AdminRoles() {
   }
 
   return (
-    <MFAGate>
+<MFAGate allowSkip={true}>
       <ScrollView contentContainerStyle={{ padding: 16 }}>
         <Text style={s.h}>Admin — Set User Role</Text>
 

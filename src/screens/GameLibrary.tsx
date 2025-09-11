@@ -5,7 +5,7 @@ const theme = require('../config/tameTheme').TameTheme;
 
 export default function GameLibrary() {
   return (
-    <MFAGate>
+<MFAGate allowSkip={true}>
       <ScrollView contentContainerStyle={{ padding: 16, backgroundColor: theme.colors.surface }}>
         <Text style={[s.h, { color: theme.colors.primary }]}>Game Library</Text>
         <Text style={{ marginTop: 8 }}>

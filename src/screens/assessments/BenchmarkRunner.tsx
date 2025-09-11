@@ -37,7 +37,7 @@ export default function BenchmarkRunner() {
   };
 
   return (
-    <MFAGate>
+<MFAGate allowSkip={true}>
       <ScrollView contentContainerStyle={{ padding: 16, backgroundColor: theme.colors.surface }}>
         <Text style={[s.h, { color: theme.colors.primary }]}>Benchmark Assessment</Text>
 

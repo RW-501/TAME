@@ -15,7 +15,7 @@ export default function ReadingLibrary() {
   };
 
   return (
-    <MFAGate>
+<MFAGate allowSkip={true}>
       <ScrollView contentContainerStyle={{ padding: 16, backgroundColor: theme.colors.surface }}>
         {manifests.map((manifest, idx) => (
           <React.Fragment key={idx}>

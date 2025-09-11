@@ -42,7 +42,7 @@ export default function PhonologicalAwarenessForm() {
   };
 
   return (
-    <MFAGate>
+<MFAGate allowSkip={true}>
       <ScrollView contentContainerStyle={{ padding: 16, backgroundColor: theme.colors.surface }}>
         <Text style={[s.h, { color: theme.colors.primary }]}>
           Phonological Awareness — Diagnostic

@@ -39,7 +39,7 @@ export default function TherapistLiveView() {
   }, [studentId]);
 
   return (
-    <MFAGate>
+<MFAGate allowSkip={true}>
       <ScrollView contentContainerStyle={{ padding: 16, backgroundColor: theme.colors.surface }}>
         <Text style={[s.h, { color: theme.colors.primary }]}>Therapist Live View</Text>
         <SessionTimer storageKey={`ther:live:${studentId}`} />

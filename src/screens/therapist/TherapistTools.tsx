@@ -17,7 +17,7 @@ export default function TherapistTools() {
   ];
 
   return (
-    <MFAGate>
+<MFAGate allowSkip={true}>
       <ScrollView contentContainerStyle={{ padding: 16, backgroundColor: theme.colors.surface }}>
         <Text style={[s.h, { color: theme.colors.primary }]}>Therapist Tools</Text>
         {tools.map((tool, i) => (
