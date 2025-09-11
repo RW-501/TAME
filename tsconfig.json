@@ -23,6 +23,6 @@
     "expo-entry.js",
     "App.tsx",
     "src/**/*"
-  ],
+, "public/books"  ],
   "extends": "expo/tsconfig.base"
 }

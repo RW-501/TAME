@@ -1,21 +1,26 @@
-import React from 'react';
-import { ScrollView, Text, StyleSheet, Pressable, Alert, View, Image } from 'react-native';
-import * as FileSystem from 'expo-file-system';
-import * as WebBrowser from 'expo-web-browser';
+import React from 'react'; 
+import { ScrollView, Text, StyleSheet, Pressable, View, Image, Platform } from 'react-native';
 import MFAGate from '../auth/MFAGate';
-import { manifests } from '../assets/books';
-
+import { manifests } from '../assets/books'; // <-- correct path
 const theme = require('../config/tameTheme').TameTheme;
 
 export default function ReadingLibrary() {
-  const openPDF = async (file: string) => {
+  const openPDF = (file: string) => {
     try {
-      const assetUri = FileSystem.asset(`./assets/books/${file}`);
-      const localUri = `${FileSystem.cacheDirectory}${file}`;
-      await FileSystem.copyAsync({ from: assetUri, to: localUri });
-      await WebBrowser.openBrowserAsync(localUri);
+      const url = Platform.OS === 'web'
+        ? `/books/${file}` // public folder path for web
+        : `books/${file}`; // native path (optional, adjust if needed)
+
+      // On web, open in new tab
+      if (Platform.OS === 'web') {
+        window.open(url, '_blank');
+      } else {
+        // For native, use Linking to open the file if needed
+        // Linking.openURL(url); 
+        alert('PDF open on native not implemented yet');
+      }
     } catch (e: any) {
-      Alert.alert('Error', e?.message || 'Failed to open PDF');
+      alert(`Error: ${e?.message || 'Failed to open PDF'}`);
     }
   };
 
@@ -30,11 +35,7 @@ export default function ReadingLibrary() {
             <ScrollView horizontal showsHorizontalScrollIndicator={false} style={s.filesContainer}>
               {manifest.files.map((f: string, i: number) => (
                 <Pressable key={i} style={s.fileBtn} onPress={() => openPDF(f)}>
-                  <Image
-                    source={require('assets/brand/pdf-icon.png')} // Add a small PDF icon
-                    style={s.icon}
-                  />
-                  <Text style={s.fileText} numberOfLines={1}>{f}</Text>
+                  <Text style={s.fileText} numberOfLines={1}>📄 {f}</Text>
                 </Pressable>
               ))}
             </ScrollView>
@@ -75,5 +76,4 @@ const s = StyleSheet.create({
     minWidth: 140,
   },
   fileText: { fontWeight: '700', color: theme.colors.primary, marginLeft: 6, flexShrink: 1 },
-  icon: { width: 20, height: 20 },
 });
