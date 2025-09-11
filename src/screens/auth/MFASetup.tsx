@@ -2,30 +2,32 @@ import React from 'react';
 import { ScrollView, View, Text, TextInput, Pressable, StyleSheet, Alert, Image } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import { startTotpEnrollment } from '../../auth/mfa';
+import { useNavigation } from '@react-navigation/native'; // <-- import here
 
 const theme = require('../../config/tameTheme').TameTheme;
 
 export default function MFASetup() {
+  const navigation = useNavigation(); // <-- call inside component
+
   const [qrUrl, setQrUrl] = React.useState<string | undefined>();
   const [secret, setSecret] = React.useState<string | undefined>();
   const [otp, setOtp] = React.useState('');
   const [finalizeFn, setFinalizeFn] = React.useState<((code: string) => Promise<void>) | null>(null);
   const [enrolled, setEnrolled] = React.useState(false);
 
-const begin = async () => {
-  console.log("▶️ Start TOTP pressed");
-  try {
-    const { secret, qrCodeUrl, finalize } = await startTotpEnrollment() as any;
-    console.log("Secret:", secret, "QR URL:", qrCodeUrl);
-    setSecret(secret);
-    setQrUrl(qrCodeUrl);
-    setFinalizeFn(() => finalize);
-  } catch (e: any) {
-    console.error("TOTP begin failed", e);
-    Alert.alert('Failed', e?.message || String(e));
-  }
-};
-
+  const begin = async () => {
+    console.log("▶️ Start TOTP pressed");
+    try {
+      const { secret, qrCodeUrl, finalize } = await startTotpEnrollment() as any;
+      console.log("Secret:", secret, "QR URL:", qrCodeUrl);
+      setSecret(secret);
+      setQrUrl(qrCodeUrl);
+      setFinalizeFn(() => finalize);
+    } catch (e: any) {
+      console.error("TOTP begin failed", e);
+      Alert.alert('Failed', e?.message || String(e));
+    }
+  };
 
   const complete = async () => {
     try {
@@ -33,6 +35,10 @@ const begin = async () => {
       await finalizeFn(otp);
       setEnrolled(true);
       Alert.alert('Success', 'TOTP enrolled successfully!');
+
+      // <-- navigate to HomeScreen after enrollment
+      navigation.replace('HomeScreen');
+
     } catch (e: any) {
       Alert.alert('Failed', e?.message || String(e));
     }
