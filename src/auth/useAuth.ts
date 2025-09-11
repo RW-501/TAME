@@ -43,7 +43,7 @@ export function useAuth() {
         const role = tokenResult.claims.role as string | undefined;
 
         // Check if user has any enrolled MFA factors (like TOTP)
-        const mfaEnabled = user.multiFactor.enrolledFactors.length > 0;
+const mfaEnabled = user.multiFactor?.enrolledFactors?.length > 0;
 
         setAuthState({
           user,
