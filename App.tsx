@@ -2,6 +2,7 @@ import React from 'react';
 import { Image, Pressable } from 'react-native';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Platform, Text } from 'react-native';
 
 // Screens
 import Login from './src/screens/Login';
@@ -48,7 +49,6 @@ export default function App() {
               style={{ width: 96, height: 28, borderRadius: 6, resizeMode: 'contain' }}
             />
           ),
-import { Platform, Text, Pressable } from 'react-native';
 
 headerLeft: ({ navigation }) => {
   if (Platform.OS === 'web') {
