@@ -1,1 +1,58 @@
-import React from 'react'; import { View,Text,Pressable,StyleSheet } from 'react-native'; import { auth } from './firebaseAuth'; import { multiFactor } from 'firebase/auth'; import { useNavigation } from '@react-navigation/native'; const theme=require('../config/tameTheme').TameTheme; export default function MFAGate({children}:{children:React.ReactNode}){ const nav:any=useNavigation(); const [ok,setOk]=React.useState<boolean|null>(null); React.useEffect(()=>{ const u=auth().currentUser; if(!u){ setOk(false); return;} const f=multiFactor(u).enrolledFactors||[]; setOk(f.length>0); },[]); if(ok===null) return <View style={s.wrap}><Text>Checking MFA…</Text></View>; if(!ok) return (<View style={s.block}><Text style={s.h}>MFA required</Text><Text style={s.note}>Set up Multi‑Factor Authentication before using TAME.</Text><Pressable style={s.btn} onPress={()=>nav.navigate('MFASetup')}><Text style={s.bt}>Set up MFA</Text></Pressable></View>); return <>{children}</>; } const s=StyleSheet.create({wrap:{flex:1,alignItems:'center',justifyContent:'center'},block:{flex:1,alignItems:'flex-start',justifyContent:'center',padding:16},h:{fontSize:20,fontWeight:'900',color:theme.colors.primary},note:{opacity:0.8,marginTop:6},btn:{borderWidth:2,borderRadius:10,padding:10,marginTop:12,borderColor:theme.colors.primary},bt:{fontWeight:'900',color:theme.colors.primary}});
+// src/auth/MFAGate.tsx
+import React from 'react';
+import { View, Text, Pressable, StyleSheet, ActivityIndicator, Alert } from 'react-native';
+import { useAuth } from './useAuth';
+import { useNavigation } from '@react-navigation/native';
+
+const theme = require('../config/tameTheme').TameTheme;
+
+type Props = {
+  children: React.ReactNode;
+};
+
+export default function MFAGate({ children }: Props) {
+  const { user, mfaEnabled, loading } = useAuth();
+  const nav: any = useNavigation();
+
+  if (loading) {
+    return (
+      <View style={s.center}>
+        <ActivityIndicator size="large" color={theme.colors.primary} />
+      </View>
+    );
+  }
+
+  if (!user) {
+    return (
+      <View style={s.center}>
+        <Text style={s.text}>You must be signed in to access this content.</Text>
+        <Pressable style={s.btn} onPress={() => nav.navigate('Login')}>
+          <Text style={s.bt}>Go to Login</Text>
+        </Pressable>
+      </View>
+    );
+  }
+
+  if (!mfaEnabled) {
+    return (
+      <View style={s.center}>
+        <Text style={s.text}>Multi-Factor Authentication is required to continue.</Text>
+        <Pressable
+          style={s.btn}
+          onPress={() => nav.navigate('MFASetup')}
+        >
+          <Text style={s.bt}>Set Up MFA</Text>
+        </Pressable>
+      </View>
+    );
+  }
+
+  return <>{children}</>;
+}
+
+const s = StyleSheet.create({
+  center: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 16 },
+  text: { fontSize: 16, textAlign: 'center', marginBottom: 16 },
+  btn: { borderWidth: 2, borderRadius: 10, padding: 12, marginTop: 8, borderColor: theme.colors.primary },
+  bt: { fontWeight: '900', color: theme.colors.primary },
+});
