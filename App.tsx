@@ -1,8 +1,7 @@
 import React from 'react';
-import { Image, Pressable } from 'react-native';
+import { Image, Pressable, Text, Platform } from 'react-native';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Platform, Text } from 'react-native';
 
 // Screens
 import Login from './src/screens/Login';
@@ -36,23 +35,9 @@ const NavTheme = {
   },
 };
 
-export default function App() {
-  return (
-    <NavigationContainer theme={NavTheme}>
-      <Stack.Navigator
-        initialRouteName="HomeScreen"
-        screenOptions={({ navigation }) => ({
-          headerStyle: { backgroundColor: theme.colors.background },
-          headerTitle: () => (
-            <Image
-              source={require('./assets/brand/tame-logo.jpg')}
-              style={{ width: 96, height: 28, borderRadius: 6, resizeMode: 'contain' }}
-            />
-          ),
-
-headerLeft: ({ navigation }) => {
+// Helper for custom back button
+const BackButton = ({ navigation }: { navigation: any }) => {
   if (Platform.OS === 'web') {
-    // On web, use regular DOM-compatible element
     return (
       <button
         onClick={() => navigation.goBack()}
@@ -69,31 +54,95 @@ headerLeft: ({ navigation }) => {
       </button>
     );
   } else {
-    // On native, use React Native components
     return (
       <Pressable onPress={() => navigation.goBack()} style={{ marginRight: 16 }}>
         <Text style={{ fontSize: 24, color: theme.colors.primary }}>←</Text>
       </Pressable>
     );
   }
-},
+};
 
-          headerBackTitleVisible: false, // hides default "Back" text
-        })}
+export default function App() {
+  return (
+    <NavigationContainer theme={NavTheme}>
+      <Stack.Navigator
+        initialRouteName="HomeScreen"
+        screenOptions={{
+          headerStyle: { backgroundColor: theme.colors.background },
+          headerTitle: () => (
+            <Image
+              source={require('./assets/brand/tame-logo.jpg')}
+              style={{ width: 96, height: 28, borderRadius: 6, resizeMode: 'contain' }}
+            />
+          ),
+          headerBackTitleVisible: false,
+        }}
       >
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="HomeScreen" component={HomeScreen} />
-        <Stack.Screen name="GameLibrary" component={GameLibrary} />
-        <Stack.Screen name="ReadingLibrary" component={ReadingLibrary} />
-        <Stack.Screen name="TherapistTools" component={TherapistTools} />
-        <Stack.Screen name="TherapistLiveView" component={TherapistLiveView} />
-        <Stack.Screen name="BenchmarkRunner" component={BenchmarkRunner} />
-        <Stack.Screen name="PhonoAwarenessForm" component={PhonoAwarenessForm} />
-        <Stack.Screen name="MFASetup" component={MFASetup} />
-        <Stack.Screen name="MFAVerify" component={MFAVerify} />
-        <Stack.Screen name="RecoveryCodes" component={RecoveryCodes} />
-        <Stack.Screen name="PhoneSignIn" component={PhoneSignIn} />
-        <Stack.Screen name="AdminRoles" component={AdminRoles} />
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{ headerLeft: () => null }} // No back button
+        />
+        <Stack.Screen
+          name="HomeScreen"
+          component={HomeScreen}
+          options={{ headerLeft: () => null }} // No back button
+        />
+        <Stack.Screen
+          name="GameLibrary"
+          component={GameLibrary}
+          options={({ navigation }) => ({ headerLeft: () => <BackButton navigation={navigation} /> })}
+        />
+        <Stack.Screen
+          name="ReadingLibrary"
+          component={ReadingLibrary}
+          options={({ navigation }) => ({ headerLeft: () => <BackButton navigation={navigation} /> })}
+        />
+        <Stack.Screen
+          name="TherapistTools"
+          component={TherapistTools}
+          options={({ navigation }) => ({ headerLeft: () => <BackButton navigation={navigation} /> })}
+        />
+        <Stack.Screen
+          name="TherapistLiveView"
+          component={TherapistLiveView}
+          options={({ navigation }) => ({ headerLeft: () => <BackButton navigation={navigation} /> })}
+        />
+        <Stack.Screen
+          name="BenchmarkRunner"
+          component={BenchmarkRunner}
+          options={({ navigation }) => ({ headerLeft: () => <BackButton navigation={navigation} /> })}
+        />
+        <Stack.Screen
+          name="PhonoAwarenessForm"
+          component={PhonoAwarenessForm}
+          options={({ navigation }) => ({ headerLeft: () => <BackButton navigation={navigation} /> })}
+        />
+        <Stack.Screen
+          name="MFASetup"
+          component={MFASetup}
+          options={({ navigation }) => ({ headerLeft: () => <BackButton navigation={navigation} /> })}
+        />
+        <Stack.Screen
+          name="MFAVerify"
+          component={MFAVerify}
+          options={({ navigation }) => ({ headerLeft: () => <BackButton navigation={navigation} /> })}
+        />
+        <Stack.Screen
+          name="RecoveryCodes"
+          component={RecoveryCodes}
+          options={({ navigation }) => ({ headerLeft: () => <BackButton navigation={navigation} /> })}
+        />
+        <Stack.Screen
+          name="PhoneSignIn"
+          component={PhoneSignIn}
+          options={({ navigation }) => ({ headerLeft: () => <BackButton navigation={navigation} /> })}
+        />
+        <Stack.Screen
+          name="AdminRoles"
+          component={AdminRoles}
+          options={({ navigation }) => ({ headerLeft: () => <BackButton navigation={navigation} /> })}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
