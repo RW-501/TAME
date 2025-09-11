@@ -16,8 +16,8 @@ export async function startTotpEnrollment() {
 
   // Return a "fake" finalize function
   return {
-    secret: "TypeIn1234",
-    qrCodeUrl: "1234",
+    secret: "Type: Qr1234",
+    qrCodeUrl: "Qr1234",
     finalize: async (code: string) => {
       console.warn('MFA TOTP finalize skipped.');
     },
